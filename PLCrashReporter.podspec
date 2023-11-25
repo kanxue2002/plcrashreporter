@@ -1,4 +1,5 @@
 Pod::Spec.new do |spec|
+  IOS_DEPLOYMENT_TARGET = '11.0' unless defined? IOS_DEPLOYMENT_TARGET
   spec.cocoapods_version = '>= 1.10'
   spec.name        = 'PLCrashReporter'
   spec.version     = '1.11.1'
@@ -9,11 +10,13 @@ Pod::Spec.new do |spec|
   spec.license     = { :type => 'MIT', :file => 'LICENSE.txt' }
   spec.authors     = { 'Microsoft' => 'appcentersdk@microsoft.com' }
 
-  spec.source      = { :http     => "https://github.com/microsoft/plcrashreporter/releases/download/#{spec.version}/PLCrashReporter-Static-#{spec.version}.xcframework.zip",
-                       :flatten  => true }
-
+  spec.source      = { :http     => "https://github.com/kanxue2002/plcrashreporter.git",
+                       :tag => spec.version }
+  spec.source_files = 'Source/**/*'
+  spec.resources = ['Source/**/*', '!Source/**/*.plist', '!Source/**/Makefile', '!Source/**/*.ios', '!Source/**/*.macosx', '!Source/**/*.sim', 'Dependencies/protobuf-c/**/*']
+  spec.xcconfig = {
+      'GCC_PREPROCESSOR_DEFINITIONS' => 'PLCF_MIN_MACOSX_SDK=$(PL_MIN_MACOSX_SDK) PLCR_PRIVATE'
+    }  
   spec.ios.deployment_target    = '11.0'
-  spec.osx.deployment_target    = '10.9'
-  spec.tvos.deployment_target   = '11.0'
   spec.vendored_frameworks = "CrashReporter.xcframework"
 end
